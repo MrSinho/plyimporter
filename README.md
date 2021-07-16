@@ -19,7 +19,7 @@ mkdir build && cd build
 cmake #-DCONFIGURATION# ..
 make
 ```
-
+If you don't want to build set the cmake option `-DPLY_BUILD_EXAMPLE=OFF`. 
 The built binaries can be found in `bin`
 
 ## Example
