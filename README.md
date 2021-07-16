@@ -9,6 +9,7 @@ Linux (gcc): [![Build Status](https://travis-ci.com/MrSinho/PlyImporter.svg?toke
 ## Features
 
  * Support for vertex positions, UVs, vertex normals  
+ * Triangles only!
 
 ## Getting started
 
