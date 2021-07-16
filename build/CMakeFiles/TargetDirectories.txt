@@ -1,0 +1,4 @@
+C:/Users/Anas Boustani/Desktop/PlyImporter/build/CMakeFiles/PlyImporter.dir
+C:/Users/Anas Boustani/Desktop/PlyImporter/build/CMakeFiles/Example.dir
+C:/Users/Anas Boustani/Desktop/PlyImporter/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Anas Boustani/Desktop/PlyImporter/build/CMakeFiles/ZERO_CHECK.dir

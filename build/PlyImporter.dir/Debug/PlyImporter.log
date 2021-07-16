@@ -1,0 +1,4 @@
+﻿  PlyImporter.c
+C:\Users\Anas Boustani\Desktop\PlyImporter\PlyImporter\src\PlyImporter.c(32,30): warning C4267: '+=': conversion from 'size_t' to 'uint32_t', possible loss of data
+C:\Users\Anas Boustani\Desktop\PlyImporter\PlyImporter\src\PlyImporter.c(99,12): warning C4098: 'plyLoadFile': 'void' function returning a value
+  PlyImporter.vcxproj -> C:\Users\Anas Boustani\Desktop\PlyImporter\bin\Debug\PlyImporter.lib

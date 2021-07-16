@@ -1,0 +1,16 @@
+language: c
+compiler: gcc
+
+os: linux
+dist: xenial
+sudo: require
+
+before_script:
+  - sudo apt-get install -y gcc cmake make
+  - mkdir build
+  - cd build
+  - cmake ..
+
+
+script:
+  - make
