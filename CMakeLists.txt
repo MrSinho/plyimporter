@@ -13,11 +13,14 @@ target_include_directories(PlyImporter PUBLIC
 )
 
 
+option(PLY_BUILD_EXAMPLE ON)
+if (PLY_BUILD_EXAMPLE)
 file(GLOB_RECURSE EXAMPLE_SRC Example/src/*.c)
 add_executable(Example ${EXAMPLE_SRC})
 target_link_libraries(Example PUBLIC 
 	PlyImporter
 )
+endif(PLY_BUILD_EXAMPLE)
 
 #OUTPUT
 set_target_properties( PlyImporter Example PROPERTIES
