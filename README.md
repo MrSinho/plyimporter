@@ -1,6 +1,6 @@
 # PlyImporter
 
-A C Stanford Polygon format loader (binary only).
+A C Stanford Polygon File Format loader (binary only).
  
 ## Build status
 
