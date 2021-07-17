@@ -62,9 +62,7 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 	if (stream == NULL) { return; }
 	
 	//HEADER
-	uint32_t lineCount = 0;
 	char line[256];
-
 	while (fgets(line, 256, stream) != NULL) {
 
 		headerSize += (uint32_t)strlen(line);
@@ -110,8 +108,6 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 			
 			plyGetPropertyTypes(line, 14 + typename_size + 1, &ply->vertex_indices_type_size);
 		}
-
-		lineCount++;
 	}
 
 	//BINARY
