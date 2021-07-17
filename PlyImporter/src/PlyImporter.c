@@ -7,7 +7,7 @@
 #pragma warning (disable: 4996)
 
 void plyGetPropertyTypes(const char* line, const uint32_t i, uint32_t* size) {
-	
+
 	switch (line[i]) {
 	case 'c': *size = 1;	break;		//1 byte  char 
 	case 's': *size = 2;	break;		//2 bytes short
@@ -60,13 +60,18 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 	uint32_t headerSize = 0;
 
 	if (stream == NULL) { return; }
-	
+
 	//HEADER
+	uint32_t lineCount = 0;
 	char line[256];
+
 	while (fgets(line, 256, stream) != NULL) {
 
 		headerSize += (uint32_t)strlen(line);
-		
+		if (line[0] == 'e' && line[1] == 'n' && line[2] == 'd') {
+			break;
+		}
+
 		// ELEMENT
 		if (line[0] == 'e' && line[1] == 'l') {
 			char* count_str = NULL;
@@ -98,16 +103,18 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 		else if (line[0] == 'p' && (line[9] == 'f' || line[9] == 'c' || line[9] == 'u' || line[9] == 's' || line[9] == 'i' || line[9] == 'f' || line[9] == 'd')) {
 			plyGetPropertyTypes(line, 9, &ply->vertex_type_size);
 			ply->vertexStride++;
-		} 
+		}
 
 		// PROPERTY LIST
 		else if (line[0] == 'p' && line[9] == 'l') {
 			plyGetPropertyTypes(line, 14, &ply->vertex_indices_list_type_size);
 			uint32_t typename_size = 0;
 			plyGetPropertyTypenameSize(line, 14, &typename_size);
-			
+
 			plyGetPropertyTypes(line, 14 + typename_size + 1, &ply->vertex_indices_type_size);
 		}
+
+		lineCount++;
 	}
 
 	//BINARY
@@ -130,24 +137,24 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 
 	ply->pIndices = (uint32_t*)calloc(ply->faceCount * 4, sizeof(uint32_t));
 	if (ply->pIndices == NULL) { exit(EXIT_FAILURE); }
-	
+
 	uint32_t indexCount = 0;
-	for (uint32_t i = 0; indexCount < ply->faceCount * 4; i+=0) {
-		
+	for (uint32_t i = 0; indexCount < ply->faceCount * 4; i += 0) {
+
 		uint32_t list = 0;
 		fseek(stream, offset, SEEK_SET);
 		fread(&list, ply->vertex_indices_list_type_size, 1, stream);
 		offset += ply->vertex_indices_list_type_size;
 		fseek(stream, offset, SEEK_SET);
-		
+
 		if (list == 3) {
 			fseek(stream, offset, SEEK_SET);
 			fread(&ply->pIndices[i], ply->vertex_indices_type_size, 3, stream);
 			offset += 3 * ply->vertex_indices_type_size;
 
 			int _0 = ply->pIndices[i];
-			int _1 = ply->pIndices[i+1];
-			int _2 = ply->pIndices[i+2];
+			int _1 = ply->pIndices[i + 1];
+			int _2 = ply->pIndices[i + 2];
 
 			indexCount += 4;
 			i += 3;
@@ -158,7 +165,7 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 
 			fread(&ply->pIndices[i], ply->vertex_indices_type_size, 3, stream);
 			fseek(stream, offset, SEEK_SET);
-			
+
 			fread(&ply->pIndices[i + 3], ply->vertex_indices_type_size, 1, stream);
 			offset += 2 * ply->vertex_indices_type_size;
 			fseek(stream, offset, SEEK_SET);
@@ -166,11 +173,11 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 			fread(&ply->pIndices[i + 4], ply->vertex_indices_type_size, 2, stream);
 			offset += 2 * ply->vertex_indices_type_size;
 			fseek(stream, offset, SEEK_SET);
-			
+
 			int _0 = ply->pIndices[i];
-			int _1 = ply->pIndices[i+1];
-			int _2 = ply->pIndices[i+2];
-			int _3 = ply->pIndices[i+3];
+			int _1 = ply->pIndices[i + 1];
+			int _2 = ply->pIndices[i + 2];
+			int _3 = ply->pIndices[i + 3];
 			int _4 = ply->pIndices[i + 4];
 			int _5 = ply->pIndices[i + 5];
 
@@ -180,12 +187,12 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 		}
 		ply->indexCount += 3;
 	}
-	
+
 	fclose(stream);
 
-	if	(flags & PLY_EXTRACT_VPOSITIONS_BIT)	{ plyExtractVPositions(ply); }
-	if	(flags & PLY_EXTRACT_UVS_BIT)			{ plyExtractUVs(ply); }
-	if	(flags & PLY_EXTRACT_VNORMALS_BIT)		{ plyExtractVertexNormals(ply); }
+	if (flags & PLY_EXTRACT_VPOSITIONS_BIT) { plyExtractVPositions(ply); }
+	if (flags & PLY_EXTRACT_UVS_BIT) { plyExtractUVs(ply); }
+	if (flags & PLY_EXTRACT_VNORMALS_BIT) { plyExtractVertexNormals(ply); }
 
 	return;
 }
@@ -195,7 +202,7 @@ void plyExtractVPositions(PlyFileData* ply) {
 	if (ply->pvPositions == NULL) { return; }
 	uint32_t positionCount = 0;
 	for (uint32_t i = 0; i < ply->vertexCount * ply->vertexStride; i += ply->vertexStride) {
-		ply->pvPositions[positionCount]     = ply->pVertices[i];
+		ply->pvPositions[positionCount] = ply->pVertices[i];
 		ply->pvPositions[positionCount + 1] = ply->pVertices[i + 1];
 		ply->pvPositions[positionCount + 2] = ply->pVertices[i + 2];
 		positionCount += 3;
@@ -203,16 +210,16 @@ void plyExtractVPositions(PlyFileData* ply) {
 }
 
 void plyExtractUVs(PlyFileData* ply) {
-	
+
 	ply->pUvs = (float*)calloc(ply->vertexCount * 2, sizeof(float));
 	if (ply->pUvs == NULL) { return; }
 	uint32_t uvCount = 0;
 	for (uint32_t i = 6; i < ply->vertexCount * ply->vertexStride; i += ply->vertexStride) {
-		ply->pUvs[uvCount]   = ply->pVertices[i];
-		ply->pUvs[uvCount+1] = ply->pVertices[i+1];
+		ply->pUvs[uvCount] = ply->pVertices[i];
+		ply->pUvs[uvCount + 1] = ply->pVertices[i + 1];
 		uvCount += 2;
 	}
-	
+
 }
 
 void plyExtractVertexNormals(PlyFileData* ply) {
@@ -221,9 +228,9 @@ void plyExtractVertexNormals(PlyFileData* ply) {
 	if (ply->pvNormals == NULL) { return; }
 	uint32_t normalCount = 0;
 	for (uint32_t i = 3; i < ply->vertexCount * ply->vertexStride; i += ply->vertexStride) {
-		ply->pvNormals[normalCount]   = ply->pVertices[i];
-		ply->pvNormals[normalCount+1] = ply->pVertices[i+1];
-		ply->pvNormals[normalCount+2] = ply->pVertices[i+2];
+		ply->pvNormals[normalCount] = ply->pVertices[i];
+		ply->pvNormals[normalCount + 1] = ply->pVertices[i + 1];
+		ply->pvNormals[normalCount + 2] = ply->pVertices[i + 2];
 		normalCount += 3;
 	}
 }
@@ -231,7 +238,7 @@ void plyExtractVertexNormals(PlyFileData* ply) {
 void plyFree(PlyFileData* ply) {
 
 	if (ply->pVertices == NULL) { free(ply->pVertices); ply->pVertices = NULL; }
-	if (ply->pIndices  == NULL) { free(ply->pIndices);  ply->pIndices  = NULL; }
-	if (ply->pUvs	   == NULL) { free(ply->pUvs);      ply->pUvs      = NULL; }
+	if (ply->pIndices == NULL) { free(ply->pIndices);  ply->pIndices = NULL; }
+	if (ply->pUvs == NULL) { free(ply->pUvs);      ply->pUvs = NULL; }
 	if (ply->pvNormals == NULL) { free(ply->pvNormals); ply->pvNormals = NULL; }
 }
