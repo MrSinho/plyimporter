@@ -23,7 +23,7 @@ make
 If you don't want to build set the cmake option `-DPLY_BUILD_EXAMPLE=OFF`. 
 The built binaries can be found in `bin`
 
-*~_Always triangulate the mesh before exporting!_~*
+*_Always triangulate the mesh before exporting!_*
 
 ## Example
 
