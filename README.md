@@ -6,6 +6,10 @@ A C Stanford Polygon File Format loader (binary only).
 
 Linux (gcc): [![Build Status](https://travis-ci.com/MrSinho/PlyImporter.svg?token=WEQzvPex7Gf2cPScBckx&branch=main)](https://travis-ci.com/MrSinho/PlyImporter)
 
+![Stanford Hand](Saved/Pictures/stanfordHand.png)
+
+![Stanford Lucy](Saved/Pictures/stanfordLucy.png)
+
 ## Features
 
  * Support for vertex positions, UVs, vertex normals  
