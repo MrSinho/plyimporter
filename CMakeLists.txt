@@ -18,7 +18,7 @@ target_link_libraries(PlyExample PUBLIC
 	PlyImporter
 )
 
-set_target_properties( PlyImporter PROPERTIES
+set_target_properties( PlyExample PlyImporter PROPERTIES
 	ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
 	RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
 	VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin
