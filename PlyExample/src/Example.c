@@ -6,7 +6,7 @@
 int main() {
 	
 	PlyFileData ply = { 0 };
-	plyLoadFile("../Assets/triangle.ply", &ply, PLY_EXTRACT_VPOSITIONS_BIT | PLY_EXTRACT_UVS_BIT | PLY_EXTRACT_VNORMALS_BIT);
+	plyLoadFile("../Assets/quad.ply", &ply, PLY_EXTRACT_VPOSITIONS_BIT | PLY_EXTRACT_UVS_BIT | PLY_EXTRACT_VNORMALS_BIT);
 	
 	printf("vertex positions:\n");
 	for (uint32_t i = 0; i < ply.vertexCount * 3; i += 3) {
@@ -17,7 +17,7 @@ int main() {
 	for (uint32_t i = 0; i < ply.vertexCount * 3; i += 3) {
 		printf("{ %f, %f, %f }\n", ply.pvNormals[i], ply.pvNormals[i + 1], ply.pvNormals[i + 2]);
 	}
-
+	
 	printf("uvs:\n");
 	for (uint32_t i = 0; i < ply.vertexCount * 2; i += 2) {
 		printf("{ %f, %f }\n", ply.pUvs[i], ply.pUvs[i + 1]);

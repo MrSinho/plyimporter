@@ -128,18 +128,61 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 	uint32_t offset = headerSize;
 	fseek(stream, offset, SEEK_SET);
 	fread(ply->pVertices, ply->vertex_type_size, ply->vertexCount * ply->vertexStride, stream);
-	
-	//read indices
-	ply->pIndices = (uint32_t*)calloc(ply->faceCount * 3, sizeof(uint32_t));
-	if (ply->pIndices == NULL) { exit(EXIT_FAILURE); }
-
 	offset += ply->vertexCount * ply->vertexStride * ply->vertex_type_size;
-	fseek(stream, offset, SEEK_SET);
-	for (uint32_t i = 0; i < ply->vertexCount * 3; i+=3) {
-		offset += 1 * ply->vertex_indices_list_type_size;
+
+	//read indices
+
+	ply->pIndices = (uint32_t*)calloc(ply->faceCount * 4, sizeof(uint32_t));
+	if (ply->pIndices == NULL) { exit(EXIT_FAILURE); }
+	
+	uint32_t indexCount = 0;
+	for (uint32_t i = 0; indexCount < ply->faceCount * 4; i+=0) {
+		
+		uint32_t list = 0;
 		fseek(stream, offset, SEEK_SET);
-		fread(&ply->pIndices[i], ply->vertex_indices_type_size, 3, stream);
-		offset += 3 * ply->vertex_indices_type_size;
+		fread(&list, ply->vertex_indices_list_type_size, 1, stream);
+		offset += ply->vertex_indices_list_type_size;
+		fseek(stream, offset, SEEK_SET);
+		
+		if (list == 3) {
+			fseek(stream, offset, SEEK_SET);
+			fread(&ply->pIndices[i], ply->vertex_indices_type_size, 3, stream);
+			offset += 3 * ply->vertex_indices_type_size;
+
+			int _0 = ply->pIndices[i];
+			int _1 = ply->pIndices[i+1];
+			int _2 = ply->pIndices[i+2];
+
+			indexCount += 4;
+			i += 3;
+		}
+
+		else if (list == 4) {
+			ply->faceCount += 1;
+
+			fread(&ply->pIndices[i], ply->vertex_indices_type_size, 3, stream);
+			fseek(stream, offset, SEEK_SET);
+			
+			fread(&ply->pIndices[i + 3], ply->vertex_indices_type_size, 1, stream);
+			offset += 2 * ply->vertex_indices_type_size;
+			fseek(stream, offset, SEEK_SET);
+
+			fread(&ply->pIndices[i + 4], ply->vertex_indices_type_size, 2, stream);
+			offset += 2 * ply->vertex_indices_type_size;
+			fseek(stream, offset, SEEK_SET);
+			
+			int _0 = ply->pIndices[i];
+			int _1 = ply->pIndices[i+1];
+			int _2 = ply->pIndices[i+2];
+			int _3 = ply->pIndices[i+3];
+			int _4 = ply->pIndices[i + 4];
+			int _5 = ply->pIndices[i + 5];
+
+			ply->indexCount += 3;
+			indexCount += 8;
+			i += 6;
+		}
+		ply->indexCount += 3;
 	}
 	
 	fclose(stream);

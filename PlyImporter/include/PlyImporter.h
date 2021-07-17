@@ -3,6 +3,8 @@
 
 #include <stdint.h>
 
+
+
 typedef enum PlyLoadFlags {
 
 	PLY_EXTRACT_VPOSITIONS_BIT	= 0x0001,
@@ -10,6 +12,8 @@ typedef enum PlyLoadFlags {
 	PLY_EXTRACT_VNORMALS_BIT	= 0x0004,
 
 } PlyLoadFlags;
+
+
 
 typedef struct PlyFileData {
 
@@ -20,12 +24,13 @@ typedef struct PlyFileData {
 
 	uint32_t	vertex_indices_list_type_size;	//size in bytes of the first item in the property list 
 	uint32_t	vertex_indices_type_size;		//size in bytes of the listed items in the property list 
-	int			faceCount;						//the number of faces
-	int*		pIndices;						//pointer to an array of size = faceCount * vertex_indices_type_size
+	uint32_t	faceCount;						//the number of faces
+	uint32_t	indexCount;						//the number of indices
+	uint32_t*	pIndices;						//pointer to an array of size = faceCount * vertex_indices_type_size
 
-	float*		pvPositions;
-	float*		pUvs;
-	float*		pvNormals;
+	float*		pvPositions;					//pointer to an array of size = vertexCount * 3
+	float*		pvNormals;						//pointer to an array of size = vertexCount * 3
+	float* pUvs;								//pointer to an array of size = vertexCount * 2
 
 } PlyFileData;
 

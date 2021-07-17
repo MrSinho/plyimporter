@@ -12,24 +12,11 @@ target_include_directories(PlyImporter PUBLIC
 	${PLY_IMPORTER_INCLUDE_DIR}
 )
 
-
-option(PLY_BUILD_EXAMPLE ON)
-if (PLY_BUILD_EXAMPLE)
 file(GLOB_RECURSE PLY_EXAMPLE_SRC PlyExample/src/*.c)
 add_executable(PlyExample ${PLY_EXAMPLE_SRC})
 target_link_libraries(PlyExample PUBLIC 
 	PlyImporter
 )
-endif(PLY_BUILD_EXAMPLE)
-
-#OUTPUT
-if (PLY_BUILD_EXAMPLE)
-set_target_properties( PlyExample PROPERTIES
-	ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
-	RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
-	VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/bin
-)
-endif(PLY_BUILD_EXAMPLE)
 
 set_target_properties( PlyImporter PROPERTIES
 	ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
