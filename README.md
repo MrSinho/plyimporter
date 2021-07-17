@@ -9,7 +9,7 @@ Linux (gcc): [![Build Status](https://travis-ci.com/MrSinho/PlyImporter.svg?toke
 ## Features
 
  * Support for vertex positions, UVs, vertex normals  
- * Triangles only!
+ * Triangle fans (quads) and lists (triangles)
 
 ## Getting started
 
@@ -27,7 +27,7 @@ The built binaries can be found in `bin`
 
 ```c
 PlyFileData ply = { 0 };
-plyLoadFile("../Assets/triangle.ply", &ply, PLY_EXTRACT_VPOSITIONS_BIT | PLY_EXTRACT_UVS_BIT | PLY_EXTRACT_VNORMALS_BIT);
+plyLoadFile("../Assets/geometry.ply", &ply, PLY_EXTRACT_VPOSITIONS_BIT | PLY_EXTRACT_UVS_BIT | PLY_EXTRACT_VNORMALS_BIT);
 
 printf("vertex positions:\n");
 for (uint32_t i = 0; i < ply.vertexCount * 3; i += 3) {
