@@ -8,8 +8,6 @@ Linux (gcc): [![Build Status](https://travis-ci.com/MrSinho/PlyImporter.svg?toke
 
 ![Stanford Hand](Saved/Pictures/stanfordHand.png)
 
-![Stanford Lucy](Saved/Pictures/stanfordLucy.png)
-
 ## Features
 
  * Support for vertex positions, UVs, vertex normals  
@@ -57,3 +55,4 @@ for (uint32_t i = 0; i < ply.faceCount * 3; i+=3) {
 
 plyFree(&ply);
 ```
+![Stanford Lucy](Saved/Pictures/stanfordLucy.png)
