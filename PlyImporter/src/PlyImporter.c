@@ -130,7 +130,7 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 
 	uint32_t offset = headerSize;
 	fseek(stream, offset, SEEK_SET);
-	int sz = fread(ply->pVertices, ply->vertex_type_size, ply->vertexCount * ply->vertexStride, stream);
+	size_t sz = fread(ply->pVertices, ply->vertex_type_size, ply->vertexCount * ply->vertexStride, stream);
 	offset += ply->vertexCount * ply->vertexStride * ply->vertex_type_size;
 
 	//read indices
@@ -163,7 +163,7 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 		else if (list == 4) {
 			ply->faceCount += 1;
 
-			int sz = fread(&ply->pIndices[i], ply->vertex_indices_type_size, 3, stream);
+			size_t sz = fread(&ply->pIndices[i], ply->vertex_indices_type_size, 3, stream);
 			fseek(stream, offset, SEEK_SET);
 
 			sz = fread(&ply->pIndices[i + 3], ply->vertex_indices_type_size, 1, stream);
