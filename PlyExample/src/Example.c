@@ -6,7 +6,7 @@
 int main() {
 	
 	PlyFileData ply = { 0 };
-	plyLoadFile("../Assets/geometry.ply", &ply, PLY_EXTRACT_VPOSITIONS_BIT | PLY_EXTRACT_UVS_BIT | PLY_EXTRACT_VNORMALS_BIT);
+	plyLoadFile("../Assets/stanfordLucy.ply", &ply, PLY_EXTRACT_VPOSITIONS_BIT | PLY_EXTRACT_UVS_BIT | PLY_EXTRACT_VNORMALS_BIT);
 	
 	printf("vertex positions:\n");
 	for (uint32_t i = 0; i < ply.vertexCount * 3; i += 3) {
