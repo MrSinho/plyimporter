@@ -130,7 +130,7 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 
 	uint32_t offset = headerSize;
 	fseek(stream, offset, SEEK_SET);
-	fread(ply->pVertices, ply->vertex_type_size, ply->vertexCount * ply->vertexStride, stream);
+	int sz = fread(ply->pVertices, ply->vertex_type_size, ply->vertexCount * ply->vertexStride, stream);
 	offset += ply->vertexCount * ply->vertexStride * ply->vertex_type_size;
 
 	//read indices
@@ -143,13 +143,13 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 
 		uint32_t list = 0;
 		fseek(stream, offset, SEEK_SET);
-		fread(&list, ply->vertex_indices_list_type_size, 1, stream);
+		sz = fread(&list, ply->vertex_indices_list_type_size, 1, stream);
 		offset += ply->vertex_indices_list_type_size;
 		fseek(stream, offset, SEEK_SET);
 
 		if (list == 3) {
 			fseek(stream, offset, SEEK_SET);
-			fread(&ply->pIndices[i], ply->vertex_indices_type_size, 3, stream);
+			sz = fread(&ply->pIndices[i], ply->vertex_indices_type_size, 3, stream);
 			offset += 3 * ply->vertex_indices_type_size;
 
 			int _0 = ply->pIndices[i];
@@ -163,14 +163,14 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 		else if (list == 4) {
 			ply->faceCount += 1;
 
-			fread(&ply->pIndices[i], ply->vertex_indices_type_size, 3, stream);
+			int sz = fread(&ply->pIndices[i], ply->vertex_indices_type_size, 3, stream);
 			fseek(stream, offset, SEEK_SET);
 
-			fread(&ply->pIndices[i + 3], ply->vertex_indices_type_size, 1, stream);
+			sz = fread(&ply->pIndices[i + 3], ply->vertex_indices_type_size, 1, stream);
 			offset += 2 * ply->vertex_indices_type_size;
 			fseek(stream, offset, SEEK_SET);
 
-			fread(&ply->pIndices[i + 4], ply->vertex_indices_type_size, 2, stream);
+			sz = fread(&ply->pIndices[i + 4], ply->vertex_indices_type_size, 2, stream);
 			offset += 2 * ply->vertex_indices_type_size;
 			fseek(stream, offset, SEEK_SET);
 
