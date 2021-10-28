@@ -17,16 +17,16 @@ typedef enum PlyLoadFlags {
 
 typedef struct PlyFileData {
 
-	uint32_t	vertex_type_size;				//size in bytes of every single vertex property
-	uint32_t	vertexCount;					//the number of vertices
-	uint32_t    vertexStride;					//the number of vertex properties for each vertex
+	size_t		vertex_type_size;				//size in bytes of every single vertex property
+	size_t		vertexCount;					//the number of vertices
+	size_t		vertexStride;					//the number of vertex properties for each vertex
 	float*		pVertices;						//pointer to an array of size = vertexCount * vertexStride
 
-	uint32_t	vertex_indices_list_type_size;	//size in bytes of the first item in the property list 
-	uint32_t	vertex_indices_type_size;		//size in bytes of the listed items in the property list 
-	uint32_t	faceCount;						//the number of faces
-	uint32_t	indexCount;						//the number of indices
-	uint32_t*	pIndices;						//pointer to an array of size = faceCount * vertex_indices_type_size
+	size_t	vertex_indices_list_type_size;		//size in bytes of the first item in the property list 
+	size_t	vertex_indices_type_size;			//size in bytes of the listed items in the property list 
+	size_t	faceCount;							//the number of faces
+	size_t	indexCount;							//the number of indices
+	size_t*	pIndices;							//pointer to an array of size = faceCount * vertex_indices_type_size
 
 	float*		pvPositions;					//pointer to an array of size = vertexCount * 3
 	float*		pvNormals;						//pointer to an array of size = vertexCount * 3
@@ -38,9 +38,9 @@ typedef struct PlyFileData {
 
 extern void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags);
 
-extern void plyGetPropertyTypes(const char* line, const uint32_t i, uint32_t* size);
+extern void plyGetPropertyTypes(const char* line, const size_t i, size_t* size);
 
-extern void plyGetPropertyTypenameSize(const char* line, const uint32_t i, uint32_t* size);
+extern void plyGetPropertyTypenameSize(const char* line, const size_t i, size_t* size);
 
 extern void plyExtractVPositions(PlyFileData* ply);
 
