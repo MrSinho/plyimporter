@@ -237,8 +237,8 @@ void plyExtractVertexNormals(PlyFileData* ply) {
 
 void plyFree(PlyFileData* ply) {
 
-	if (ply->pVertices == NULL) { free(ply->pVertices); ply->pVertices = NULL; }
-	if (ply->pIndices == NULL) { free(ply->pIndices);  ply->pIndices = NULL; }
-	if (ply->pUvs == NULL) { free(ply->pUvs);      ply->pUvs = NULL; }
-	if (ply->pvNormals == NULL) { free(ply->pvNormals); ply->pvNormals = NULL; }
+	if (ply->pVertices != NULL) { free(ply->pVertices); ply->pVertices = NULL; }
+	if (ply->pIndices != NULL) { free(ply->pIndices);  ply->pIndices = NULL; }
+	if (ply->pUvs != NULL) { free(ply->pUvs);      ply->pUvs = NULL; }
+	if (ply->pvNormals != NULL) { free(ply->pvNormals); ply->pvNormals = NULL; }
 }
