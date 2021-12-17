@@ -4,7 +4,7 @@ A C Stanford Polygon File Format loader (binary only).
  
 ## Build status
 
-Linux: ![status_badge](.ShCI/status.svg)
+![linux_badge](.ShCI/linux-status.svg)
 
 ![Stanford Hand](Saved/Pictures/stanfordHand.png)
 
