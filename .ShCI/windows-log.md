@@ -1,7 +1,7 @@
 # PlyImporter
 ![windows_badge](windows-status.svg)
 
-(Windows build logs:)[https://github.com/MrSinho/ShCI]
+(Windows build logs)[https://github.com/MrSinho/ShCI]
 
 ```bash$$shci call$$:
 choco install -y curl mingw cmake
