@@ -2,7 +2,7 @@
 
 A C Stanford Polygon File Format loader (binary only).
  
-## [Build status](https://github.com/MrSinho/PlyImporter/.ShCI)
+## [Build status](https://github.com/MrSinho/PlyImporter/tree/main/.ShCI)
 
 [![linux_badge](.ShCI/linux-status.svg)](https://github.com/MrSinho/PlyImporter/tree/main/.ShCI/linux-log.md)
 [![windows_badge](.ShCI/windows-status.svg)](https://github.com/MrSinho/PlyImporter/tree/main/.ShCI/windows-log.md)
