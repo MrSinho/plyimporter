@@ -6,6 +6,7 @@ A C Stanford Polygon File Format loader (binary only).
 
 [![linux_badge](.ShCI/linux-status.svg)](https://github.com/MrSinho/PlyImporter/.ShCI/linux-log.md)
 [![windows_badge](.ShCI/windows-status.svg)](https://github.com/MrSinho/PlyImporter/.ShCI/windows-log.md)
+
 Click on the badges for a full overview of the build pipeline. 
 
 ![Stanford Hand](Saved/Pictures/stanfordHand.png)
