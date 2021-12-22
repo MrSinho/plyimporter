@@ -1,7 +1,7 @@
 # PlyImporter
 ![linux_badge](linux-status.svg)
 ## [Linux/Unix build logs:](https://github.com/MrSinho/ShCI)
-  
+  `Build ran for 2.32s`
 ```bash $shci call$
 apt install -y wget gcc cmake make gdb
 Reading package lists...
