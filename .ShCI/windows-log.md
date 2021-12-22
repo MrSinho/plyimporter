@@ -1,7 +1,7 @@
 # PlyImporter
 ![windows_badge](windows-status.svg)
 ## [Windows build logs:](https://github.com/MrSinho/ShCI)
-  
+  `Build ran for 4.81s`
 ```bash $shci call$
 choco install -y curl mingw cmake
 Chocolatey v0.11.2
@@ -43,7 +43,7 @@ cd PlyImporter && mkdir build && cd build && cmake -G"MinGW Makefiles" .. && min
 -- Detecting C compile features - done
 -- Configuring done
 -- Generating done
--- Build files have been written to: C:/Users/sino3/Desktop/GitHub/ShCI-implementation/bin/Debug/PlyImporter/build
+-- Build files have been written to: C:/Users/sino3/Desktop/GitHub/ShCI-implementation/bin/PlyImporter/build
 [ 50%] Building C object CMakeFiles/PlyImporter.dir/PlyImporter/src/PlyImporter.c.obj
 [100%] Linking C static library ..\bin\libPlyImporter.a
 [100%] Built target PlyImporter
