@@ -1,7 +1,7 @@
 # PlyImporter
 ![windows_badge](windows-status.svg)
 ## [Windows build logs:](https://github.com/MrSinho/ShCI)
-  `Build ran for 4.81s`
+  `Build ran for 4.63s`
 ```bash $shci call$
 choco install -y curl mingw cmake
 Chocolatey v0.11.2
