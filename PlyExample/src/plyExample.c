@@ -1,4 +1,4 @@
-#include <PlyImporter.h>
+#include <plyimporter/plyImporter.h>
 
 #include <stdio.h>
 #include <string.h>
