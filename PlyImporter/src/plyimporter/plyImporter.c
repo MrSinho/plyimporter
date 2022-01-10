@@ -130,8 +130,8 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 
 	uint32_t offset = headerSize;
 	fseek(stream, offset, SEEK_SET);
-	size_t sz = fread(ply->p_vertices, ply->vertex_type_size, ply->vertex_count * ply->vertex_stride, stream);
-	offset += ply->vertex_count * ply->vertex_stride * ply->vertex_type_size;
+	size_t sz = fread(ply->p_vertices, ply->vertex_type_size, ply->vertex_count, stream);
+	offset += ply->vertex_count * ply->vertex_type_size;
 
 	//read indices
 
@@ -201,7 +201,7 @@ void plyExtractVPositions(PlyFileData* ply) {
 	ply->p_vpositions = (float*)calloc(ply->vertex_count * 3, sizeof(float));
 	if (ply->p_vpositions == NULL) { return; }
 	uint32_t positionCount = 0;
-	for (uint32_t i = 0; i < ply->vertex_count * ply->vertex_stride; i += ply->vertex_stride) {
+	for (uint32_t i = 0; i < ply->vertex_count; i += ply->vertex_stride) {
 		ply->p_vpositions[positionCount] = ply->p_vertices[i];
 		ply->p_vpositions[positionCount + 1] = ply->p_vertices[i + 1];
 		ply->p_vpositions[positionCount + 2] = ply->p_vertices[i + 2];
@@ -214,7 +214,7 @@ void plyExtractUVs(PlyFileData* ply) {
 	ply->p_uvs = (float*)calloc(ply->vertex_count * 2, sizeof(float));
 	if (ply->p_uvs == NULL) { return; }
 	uint32_t uvCount = 0;
-	for (uint32_t i = 6; i < ply->vertex_count * ply->vertex_stride; i += ply->vertex_stride) {
+	for (uint32_t i = 6; i < ply->vertex_count; i += ply->vertex_stride) {
 		ply->p_uvs[uvCount] = ply->p_vertices[i];
 		ply->p_uvs[uvCount + 1] = ply->p_vertices[i + 1];
 		uvCount += 2;
@@ -227,7 +227,7 @@ void plyExtractVertexNormals(PlyFileData* ply) {
 	ply->p_vnormals = (float*)calloc(ply->vertex_count * 3, sizeof(float));
 	if (ply->p_vnormals == NULL) { return; }
 	uint32_t normalCount = 0;
-	for (uint32_t i = 3; i < ply->vertex_count * ply->vertex_stride; i += ply->vertex_stride) {
+	for (uint32_t i = 3; i < ply->vertex_count; i += ply->vertex_stride) {
 		ply->p_vnormals[normalCount] = ply->p_vertices[i];
 		ply->p_vnormals[normalCount + 1] = ply->p_vertices[i + 1];
 		ply->p_vnormals[normalCount + 2] = ply->p_vertices[i + 2];
