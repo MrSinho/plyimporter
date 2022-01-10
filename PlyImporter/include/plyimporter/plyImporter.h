@@ -18,19 +18,19 @@ typedef enum PlyLoadFlags {
 typedef struct PlyFileData {
 
 	uint32_t	vertex_type_size;				//size in bytes of every single vertex property
-	uint32_t	vertexCount;					//the number of vertices
-	uint32_t    vertexStride;					//the number of vertex properties for each vertex
-	float*		pVertices;						//pointer to an array of size = vertexCount * vertexStride
+	uint32_t	vertex_count;					//the number of vertices
+	uint32_t    vertex_stride;					//the number of vertex properties for each vertex
+	float*		p_vertices;						//pointer to an array of size = vertex_count * vertex_stride
 
 	uint32_t	vertex_indices_list_type_size;	//size in bytes of the first item in the property list 
 	uint32_t	vertex_indices_type_size;		//size in bytes of the listed items in the property list 
-	uint32_t	faceCount;						//the number of faces
-	uint32_t	indexCount;						//the number of indices
-	uint32_t*	pIndices;						//pointer to an array of size = faceCount * vertex_indices_type_size
+	uint32_t	face_count;						//the number of faces
+	uint32_t	index_count;					//the number of indices
+	uint32_t*	p_indices;						//pointer to an array of size = face_count * vertex_indices_type_size
 
-	float*		pvPositions;					//pointer to an array of size = vertexCount * 3
-	float*		pvNormals;						//pointer to an array of size = vertexCount * 3
-	float*		pUvs;							//pointer to an array of size = vertexCount * 2
+	float*		p_vpositions;					//pointer to an array of size = vertex_count * 3
+	float*		p_vnormals;						//pointer to an array of size = vertex_count * 3
+	float*		p_uvs;							//pointer to an array of size = vertex_count * 2
 
 } PlyFileData;
 

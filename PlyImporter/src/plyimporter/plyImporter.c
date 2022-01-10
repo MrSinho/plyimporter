@@ -81,7 +81,7 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 				count_str = (char*)calloc(strlen(line) - 16, 1);
 				if (count_str != NULL) {
 					memcpy(count_str, &line[15], strlen(line) - 16);
-					ply->vertexCount = atoi(count_str);
+					ply->vertex_count = atoi(count_str);
 				}
 
 			}
@@ -91,7 +91,7 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 				count_str = (char*)calloc(strlen(line) - 14, 1);
 				if (count_str != NULL) {
 					memcpy(count_str, &line[13], strlen(line) - 14);
-					ply->faceCount = atoi(count_str);
+					ply->face_count = atoi(count_str);
 				}
 			}
 
@@ -102,7 +102,7 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 		// VERTEX PROPERTY
 		else if (line[0] == 'p' && (line[9] == 'f' || line[9] == 'c' || line[9] == 'u' || line[9] == 's' || line[9] == 'i' || line[9] == 'f' || line[9] == 'd')) {
 			plyGetPropertyTypes(line, 9, &ply->vertex_type_size);
-			ply->vertexStride++;
+			ply->vertex_stride++;
 		}
 
 		// PROPERTY LIST
@@ -116,7 +116,7 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 
 		lineCount++;
 	}
-
+	ply->vertex_count *= ply->vertex_stride;
 	//BINARY
 
 	fclose(stream);
@@ -125,21 +125,21 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 	if (stream == NULL) { return; }
 
 	//read vertices
-	ply->pVertices = (float*)calloc(ply->vertexCount * ply->vertexStride, sizeof(float));
-	if (ply->pVertices == NULL) { exit(EXIT_FAILURE); }
+	ply->p_vertices = (float*)calloc(ply->vertex_count, sizeof(float));
+	if (ply->p_vertices == NULL) { exit(EXIT_FAILURE); }
 
 	uint32_t offset = headerSize;
 	fseek(stream, offset, SEEK_SET);
-	size_t sz = fread(ply->pVertices, ply->vertex_type_size, ply->vertexCount * ply->vertexStride, stream);
-	offset += ply->vertexCount * ply->vertexStride * ply->vertex_type_size;
+	size_t sz = fread(ply->p_vertices, ply->vertex_type_size, ply->vertex_count * ply->vertex_stride, stream);
+	offset += ply->vertex_count * ply->vertex_stride * ply->vertex_type_size;
 
 	//read indices
 
-	ply->pIndices = (uint32_t*)calloc(ply->faceCount * 4, sizeof(uint32_t));
-	if (ply->pIndices == NULL) { exit(EXIT_FAILURE); }
+	ply->p_indices = (uint32_t*)calloc(ply->face_count * 4, sizeof(uint32_t));
+	if (ply->p_indices == NULL) { exit(EXIT_FAILURE); }
 
-	uint32_t indexCount = 0;
-	for (uint32_t i = 0; indexCount < ply->faceCount * 4; i += 0) {
+	uint32_t index_count = 0;
+	for (uint32_t i = 0; index_count < ply->face_count * 4; i += 0) {
 
 		uint32_t list = 0;
 		fseek(stream, offset, SEEK_SET);
@@ -149,43 +149,43 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 
 		if (list == 3) {
 			fseek(stream, offset, SEEK_SET);
-			sz = fread(&ply->pIndices[i], ply->vertex_indices_type_size, 3, stream);
+			sz = fread(&ply->p_indices[i], ply->vertex_indices_type_size, 3, stream);
 			offset += 3 * ply->vertex_indices_type_size;
 
-			int _0 = ply->pIndices[i];
-			int _1 = ply->pIndices[i + 1];
-			int _2 = ply->pIndices[i + 2];
+			int _0 = ply->p_indices[i];
+			int _1 = ply->p_indices[i + 1];
+			int _2 = ply->p_indices[i + 2];
 
-			indexCount += 4;
+			index_count += 4;
 			i += 3;
 		}
 
 		else if (list == 4) {
-			ply->faceCount += 1;
+			ply->face_count += 1;
 
-			size_t sz = fread(&ply->pIndices[i], ply->vertex_indices_type_size, 3, stream);
+			size_t sz = fread(&ply->p_indices[i], ply->vertex_indices_type_size, 3, stream);
 			fseek(stream, offset, SEEK_SET);
 
-			sz = fread(&ply->pIndices[i + 3], ply->vertex_indices_type_size, 1, stream);
+			sz = fread(&ply->p_indices[i + 3], ply->vertex_indices_type_size, 1, stream);
 			offset += 2 * ply->vertex_indices_type_size;
 			fseek(stream, offset, SEEK_SET);
 
-			sz = fread(&ply->pIndices[i + 4], ply->vertex_indices_type_size, 2, stream);
+			sz = fread(&ply->p_indices[i + 4], ply->vertex_indices_type_size, 2, stream);
 			offset += 2 * ply->vertex_indices_type_size;
 			fseek(stream, offset, SEEK_SET);
 
-			int _0 = ply->pIndices[i];
-			int _1 = ply->pIndices[i + 1];
-			int _2 = ply->pIndices[i + 2];
-			int _3 = ply->pIndices[i + 3];
-			int _4 = ply->pIndices[i + 4];
-			int _5 = ply->pIndices[i + 5];
+			int _0 = ply->p_indices[i];
+			int _1 = ply->p_indices[i + 1];
+			int _2 = ply->p_indices[i + 2];
+			int _3 = ply->p_indices[i + 3];
+			int _4 = ply->p_indices[i + 4];
+			int _5 = ply->p_indices[i + 5];
 
-			ply->indexCount += 3;
-			indexCount += 8;
+			ply->index_count += 3;
+			index_count += 8;
 			i += 6;
 		}
-		ply->indexCount += 3;
+		ply->index_count += 3;
 	}
 
 	fclose(stream);
@@ -198,25 +198,25 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 }
 
 void plyExtractVPositions(PlyFileData* ply) {
-	ply->pvPositions = (float*)calloc(ply->vertexCount * 3, sizeof(float));
-	if (ply->pvPositions == NULL) { return; }
+	ply->p_vpositions = (float*)calloc(ply->vertex_count * 3, sizeof(float));
+	if (ply->p_vpositions == NULL) { return; }
 	uint32_t positionCount = 0;
-	for (uint32_t i = 0; i < ply->vertexCount * ply->vertexStride; i += ply->vertexStride) {
-		ply->pvPositions[positionCount] = ply->pVertices[i];
-		ply->pvPositions[positionCount + 1] = ply->pVertices[i + 1];
-		ply->pvPositions[positionCount + 2] = ply->pVertices[i + 2];
+	for (uint32_t i = 0; i < ply->vertex_count * ply->vertex_stride; i += ply->vertex_stride) {
+		ply->p_vpositions[positionCount] = ply->p_vertices[i];
+		ply->p_vpositions[positionCount + 1] = ply->p_vertices[i + 1];
+		ply->p_vpositions[positionCount + 2] = ply->p_vertices[i + 2];
 		positionCount += 3;
 	}
 }
 
 void plyExtractUVs(PlyFileData* ply) {
 
-	ply->pUvs = (float*)calloc(ply->vertexCount * 2, sizeof(float));
-	if (ply->pUvs == NULL) { return; }
+	ply->p_uvs = (float*)calloc(ply->vertex_count * 2, sizeof(float));
+	if (ply->p_uvs == NULL) { return; }
 	uint32_t uvCount = 0;
-	for (uint32_t i = 6; i < ply->vertexCount * ply->vertexStride; i += ply->vertexStride) {
-		ply->pUvs[uvCount] = ply->pVertices[i];
-		ply->pUvs[uvCount + 1] = ply->pVertices[i + 1];
+	for (uint32_t i = 6; i < ply->vertex_count * ply->vertex_stride; i += ply->vertex_stride) {
+		ply->p_uvs[uvCount] = ply->p_vertices[i];
+		ply->p_uvs[uvCount + 1] = ply->p_vertices[i + 1];
 		uvCount += 2;
 	}
 
@@ -224,21 +224,21 @@ void plyExtractUVs(PlyFileData* ply) {
 
 void plyExtractVertexNormals(PlyFileData* ply) {
 
-	ply->pvNormals = (float*)calloc(ply->vertexCount * 3, sizeof(float));
-	if (ply->pvNormals == NULL) { return; }
+	ply->p_vnormals = (float*)calloc(ply->vertex_count * 3, sizeof(float));
+	if (ply->p_vnormals == NULL) { return; }
 	uint32_t normalCount = 0;
-	for (uint32_t i = 3; i < ply->vertexCount * ply->vertexStride; i += ply->vertexStride) {
-		ply->pvNormals[normalCount] = ply->pVertices[i];
-		ply->pvNormals[normalCount + 1] = ply->pVertices[i + 1];
-		ply->pvNormals[normalCount + 2] = ply->pVertices[i + 2];
+	for (uint32_t i = 3; i < ply->vertex_count * ply->vertex_stride; i += ply->vertex_stride) {
+		ply->p_vnormals[normalCount] = ply->p_vertices[i];
+		ply->p_vnormals[normalCount + 1] = ply->p_vertices[i + 1];
+		ply->p_vnormals[normalCount + 2] = ply->p_vertices[i + 2];
 		normalCount += 3;
 	}
 }
 
 void plyFree(PlyFileData* ply) {
 
-	if (ply->pVertices != NULL) { free(ply->pVertices); ply->pVertices = NULL; }
-	if (ply->pIndices != NULL) { free(ply->pIndices);  ply->pIndices = NULL; }
-	if (ply->pUvs != NULL) { free(ply->pUvs);      ply->pUvs = NULL; }
-	if (ply->pvNormals != NULL) { free(ply->pvNormals); ply->pvNormals = NULL; }
+	if (ply->p_vertices != NULL) { free(ply->p_vertices); ply->p_vertices = NULL; }
+	if (ply->p_indices != NULL) { free(ply->p_indices);  ply->p_indices = NULL; }
+	if (ply->p_uvs != NULL) { free(ply->p_uvs);      ply->p_uvs = NULL; }
+	if (ply->p_vnormals != NULL) { free(ply->p_vnormals); ply->p_vnormals = NULL; }
 }
