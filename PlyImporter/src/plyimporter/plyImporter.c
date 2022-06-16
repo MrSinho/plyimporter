@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#pragma warning (disable: 4996)
+#pragma warning (disable: 4996 6386)
 
 void plyGetPropertyTypes(const char* line, const uint32_t i, uint32_t* size) {
 
@@ -241,4 +241,5 @@ void plyFree(PlyFileData* ply) {
 	if (ply->p_indices != NULL) { free(ply->p_indices);  ply->p_indices = NULL; }
 	if (ply->p_uvs != NULL) { free(ply->p_uvs);      ply->p_uvs = NULL; }
 	if (ply->p_vnormals != NULL) { free(ply->p_vnormals); ply->p_vnormals = NULL; }
+	if (ply->p_vpositions != NULL) { free(ply->p_vpositions); ply->p_vpositions = NULL; }
 }
