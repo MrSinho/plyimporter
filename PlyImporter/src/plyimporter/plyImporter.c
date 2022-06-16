@@ -102,7 +102,7 @@ void plyLoadFile(const char* path, PlyFileData* ply, PlyLoadFlags flags) {
 		// VERTEX PROPERTY
 		else if (line[0] == 'p' && (line[9] == 'f' || line[9] == 'c' || line[9] == 'u' || line[9] == 's' || line[9] == 'i' || line[9] == 'f' || line[9] == 'd')) {
 			plyGetPropertyTypes(line, 9, &ply->vertex_type_size);
-			ply->vertex_stride++;
+			ply->vertex_stride++ * 4;
 		}
 
 		// PROPERTY LIST
